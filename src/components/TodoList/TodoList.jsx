@@ -1,16 +1,15 @@
 import TodoItem from "../../pages/TodoItem/TodoItem";
 
-const TodoList = ({ todoslist, markComplete, deleteTodo, editTodo }) => {
+const TodoList = ({ todoslist, markComplete, deleteTodo }) => {
   return (
-    <div className="mt-4">
+    <div>
       {todoslist.map((todo, index) => (
         <TodoItem
-          key={todo.id}
           todo={todo}
+          key={todo._id}
           index={index}
           markComplete={markComplete}
           deleteTodo={deleteTodo}
-          editTodo={editTodo}
         />
       ))}
     </div>

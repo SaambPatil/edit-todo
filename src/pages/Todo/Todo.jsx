@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddTodo from "../../components/AddTodo/AddTodo";
 import TodoList from "../../components/TodoList/TodoList";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 const API_URL = "https://fake-api-kf7b.onrender.com";
 
@@ -66,6 +68,7 @@ const Todo = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
 
   const deleteTodo = async (id) => {
     console.log("Deleting todo with ID:", id);
