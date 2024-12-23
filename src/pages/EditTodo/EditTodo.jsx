@@ -8,6 +8,7 @@ const EditTodo = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ title: "", desc: "" });
+  const [originalCompleted, setOriginalCompleted] = useState(false);
 
   const fetchTodo = async () => {
     try {
@@ -16,6 +17,7 @@ const EditTodo = () => {
         title: res.data.title,
         desc: res.data.description,
       });
+      setOriginalCompleted(res.data.completed);
     } catch (error) {
       console.log("Error fetching todo:", error);
       alert("Failed to fetch todo. Please try again.");
@@ -28,6 +30,7 @@ const EditTodo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.title || !formData.desc) {
       alert("All fields are required!");
       return;
@@ -36,20 +39,25 @@ const EditTodo = () => {
     const updatedTodo = {
       title: formData.title.trim(),
       description: formData.desc.trim(),
+      completed: originalCompleted,
     };
+
+    const previousState = { ...formData }; 
+    setFormData(updatedTodo);
 
     try {
       await axios.put(`${API_URL}/todos/${id}`, updatedTodo);
       navigate("/todo"); 
     } catch (error) {
       console.log("Error updating todo:", error);
+      setFormData(previousState);
       alert("Failed to update todo. Please try again.");
     }
   };
 
   useEffect(() => {
     fetchTodo();
-  }, [id]); 
+  }, [id]);
 
   return (
     <div className="container mx-auto p-4">

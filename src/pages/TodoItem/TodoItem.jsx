@@ -19,7 +19,7 @@ const TodoItem = ({ todo, index, markComplete, deleteTodo, editTodo }) => {
           todo.completed ? "text-green-400 line-through" : ""
         }`}
       >
-        Description: {todo.desc}
+        Description: {todo.description}
       </p>
       <p className="text-sm text-gray-400">
         Created on: {new Date(todo.createdOn).toDateString()}

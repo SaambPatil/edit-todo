@@ -18,7 +18,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/todo" element={<Todo />} />
           <Route path="/todo/:todoId" element={<TodoItem />} />
-          <Route path="/todo/edit/:todoId" element={<EditTodo />} />
+          <Route path="/todo/edit/:id" element={<EditTodo />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>
