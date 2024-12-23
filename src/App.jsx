@@ -6,6 +6,7 @@ import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import RootLayout from "./components/RootLayout/RootLayout";
 import Todo from "./pages/Todo/Todo";
 import TodoItem from "./pages/TodoItem/TodoItem";
+import EditTodo from "./pages/EditTodo/EditTodo";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/todo" element={<Todo />} />
           <Route path="/todo/:todoId" element={<TodoItem />} />
+          <Route path="/todo/edit/:todoId" element={<EditTodo />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>
       </Routes>

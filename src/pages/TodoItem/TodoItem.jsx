@@ -25,7 +25,6 @@ const TodoItem = ({ todo, index, markComplete, deleteTodo, editTodo }) => {
         Created on: {new Date(todo.createdOn).toDateString()}
       </p>
       <div className="flex space-x-2 mt-4">
-        {/* Mark as Complete/Incomplete Button */}
         <button
           onClick={() => markComplete(todo._id, todo.completed)}
           className={`px-4 py-2 rounded-md text-white transition-all duration-300 ease-in-out ${
@@ -37,7 +36,6 @@ const TodoItem = ({ todo, index, markComplete, deleteTodo, editTodo }) => {
           {todo.completed ? "Mark As Incomplete" : "Mark As Complete"}
         </button>
 
-        {/* Delete Button */}
         <button
           onClick={() => deleteTodo(todo._id)}
           className="px-4 py-2 rounded-md bg-red-500 text-white hover:bg-red-600 transition-all duration-300 ease-in-out"

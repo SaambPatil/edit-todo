@@ -1,6 +1,6 @@
 import TodoItem from "../../pages/TodoItem/TodoItem";
 
-const TodoList = ({ todoslist, markComplete, deleteTodo }) => {
+const TodoList = ({ todoslist, markComplete, deleteTodo, editTodo }) => {
   return (
     <div>
       {todoslist.map((todo, index) => (
@@ -10,6 +10,7 @@ const TodoList = ({ todoslist, markComplete, deleteTodo }) => {
           index={index}
           markComplete={markComplete}
           deleteTodo={deleteTodo}
+          editTodo={editTodo}
         />
       ))}
     </div>
