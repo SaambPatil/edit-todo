@@ -1,21 +1,13 @@
 /* eslint-disable no-unused-vars */
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 import AddTodo from "../../components/AddTodo/AddTodo";
 import TodoList from "../../components/TodoList/TodoList";
-import { useNavigate } from "react-router-dom";
 
 const API_URL = "https://fake-api-kf7b.onrender.com";
 
 const Todo = () => {
-  const navigate = useNavigate(); // Correct placement inside the component
-
-  const [formData, setFormData] = useState({
-    title: "",
-    desc: "",
-    completed: false,
-  });
-
   const [todoslist, setTodoslist] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -27,6 +19,10 @@ const Todo = () => {
       setTodoslist(res.data);
     } catch (error) {
       setError("Unable to get todos");
+      toast.error("Failed to fetch todos. Please try again.", {
+        position: "bottom-right",
+        duration: 2000
+      });
     } finally {
       setIsLoading(false);
     }
@@ -36,29 +32,16 @@ const Todo = () => {
     getTodos();
   }, []);
 
-  const onSubmitForm = async (e) => {
-    e.preventDefault();
-    if (!formData.title || !formData.desc) {
-      alert("All fields are required!");
-      return;
-    }
-
-    const temp = {
-      title: formData.title.trim(),
-      description: formData.desc.trim(),
-    };
-
+  const createTodo = async (data) => {
     try {
-      const res = await axios.post(`${API_URL}/todos`, temp);
-      setTodoslist([...todoslist, res.data]);
-      setFormData({ title: "", desc: "" });
+      const res = await axios.post(`${API_URL}/todos`, data);
+      setTodoslist([...todoslist, res.data]); 
     } catch (err) {
-      alert("Failed to add todo. Please try again.");
+      toast.error("Failed to add todo. Please try again.", {
+        position: "bottom-right",
+        duration: 2000
+      });
     }
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const deleteTodo = async (id) => {
@@ -66,14 +49,17 @@ const Todo = () => {
     setTodoslist(todoslist.filter((todo) => todo._id !== id));
     try {
       await axios.delete(`${API_URL}/todos/${id}`);
+      toast.success("Todo deleted successfully!", {
+        position: "bottom-right",
+        duration: 2000
+      });
     } catch (error) {
       setTodoslist(originalTodos);
-      alert("Failed to delete the todo. Please try again.");
+      toast.error("Failed to delete todo. Please try again.", {
+        position: "bottom-right",
+        duration: 2000
+      });
     }
-  };
-
-  const editTodo = (id) => {
-    navigate(`/todo/edit/${id}`); // Correct navigation using useNavigate
   };
 
   const markComplete = async (id, completed) => {
@@ -88,12 +74,22 @@ const Todo = () => {
       const temp = {
         title: updatedTodo.title,
         description: updatedTodo.description,
-        completed: updatedTodo.completed,
+        completed: updatedTodo.completed
       };
       await axios.put(`${API_URL}/todos/${id}`, temp);
+      toast.success(
+        `Todo marked as ${!completed ? "completed" : "incomplete"}!`,
+        {
+          position: "bottom-right",
+          duration: 2000
+        }
+      );
     } catch (error) {
       setTodoslist(originalTodos);
-      alert("Failed to update the todo. Please try again.");
+      toast.error("Failed to update todo. Please try again.", {
+        position: "bottom-right",
+        duration: 2000
+      });
     }
   };
 
@@ -107,16 +103,12 @@ const Todo = () => {
 
   return (
     <div>
-      <AddTodo
-        formData={formData}
-        handleChange={handleChange}
-        onSubmitForm={onSubmitForm}
-      />
+      <AddTodo createTodo={createTodo} />
+      <br />
       <TodoList
         todoslist={todoslist}
         markComplete={markComplete}
         deleteTodo={deleteTodo}
-        editTodo={editTodo} 
       />
     </div>
   );

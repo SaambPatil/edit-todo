@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-const TodoItem = ({ todo, index, markComplete, deleteTodo, editTodo }) => {
+const TodoItem = ({ todo, index, markComplete, deleteTodo }) => {
   return (
     <div
       className={`bg-white shadow-md rounded-md p-4 mb-4 border-l-4 ${
@@ -43,12 +44,12 @@ const TodoItem = ({ todo, index, markComplete, deleteTodo, editTodo }) => {
           Delete
         </button>
 
-        <button
-          onClick={() => editTodo(todo._id)}
+        <Link
+          to={`/todo/edit/${todo._id}`}
           className="px-4 py-2 rounded-md bg-yellow-400 text-black hover:bg-yellow-500 transition-all duration-300 ease-in-out"
         >
           Edit
-        </button>
+        </Link>
       </div>
     </div>
   );
